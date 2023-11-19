@@ -29,6 +29,11 @@ const users = [
 app.use(express.json());
 app.use(express.urlencoded());
 
+app.use((req, res, next) => {
+    console.log(req.method, req.url);
+    next();
+})
+
 app.get('/', (req, res) => {
 
     // let user = {
@@ -39,7 +44,7 @@ app.get('/', (req, res) => {
     res.send(users)
 })
 
-app.get('/api/get/:id', (req, res) => {
+app.get('/api/get/users/:id', (req, res) => {
     const id = req.params.id;
 
     const unique_user = users.find(user => user.id == id);
@@ -49,6 +54,24 @@ app.get('/api/get/:id', (req, res) => {
         res.send("User not found");
     }
 })
+
+app.get('/api/users/get/',
+    (req, res) => {
+        const { name } = req.query;
+        // console.log(name)
+        if (!name) {
+            return res.status(400).json({ error: "name parameter is required!" })
+        } else {
+            const filterUser = users.filter(user => user.name === name);
+            if (filterUser.length > 0) {
+                res.json(filterUser);
+            } else {
+                res.send("User not found");
+            }
+        }
+
+    }
+)
 
 
 app.post('/api/post/', (req, res) => {
