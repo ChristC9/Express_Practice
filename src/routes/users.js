@@ -1,4 +1,4 @@
-const {Router} = require('express')
+const { Router } = require('express')
 
 
 const router = Router()
@@ -35,10 +35,15 @@ router.get('/', (req, res) => {
     //     age: 31,
     //     city: 'New York'
     // }
+    res.cookie('visited', true, {
+        maxAge: 60000
+    })
+    console.log(req.cookies)
     res.send(users)
 })
 
 router.get('/api/get/users/:id', (req, res) => {
+    console.log(req.headers.cookie)
     const id = req.params.id;
 
     const unique_user = users.find(user => user.id == id);
