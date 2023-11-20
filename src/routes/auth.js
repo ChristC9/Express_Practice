@@ -2,6 +2,8 @@ const { Router } = require("express");
 
 const router = Router();
 
+
+
 router.post('/api/auth/post', (req, res) => {
     const { username, password } = req.body;
     const auth = { username, password }
@@ -30,5 +32,7 @@ router.get('/api/auth/post/get', (req, res) => {
         res.send(authSes.authUser)
     }
 })
+
+
 
 module.exports = router;

@@ -1,9 +1,15 @@
-const {Router} = require('express');
+const { Router } = require('express');
 
 const router = Router();
 
-
-const roles =[
+router.use((req, res, next) => {
+    if (req.session.user) {
+        next()
+    } else {
+        res.send(401).send('Unauthorized')
+    }
+})
+const roles = [
     {
         id: 1,
         name: "Founder"
@@ -26,7 +32,7 @@ const roles =[
     }
 ]
 
-router.get('/api/roles/get',(req,res)=>{
+router.get('/api/roles/get', (req, res) => {
     res.send(roles)
 })
 
